@@ -1,0 +1,36 @@
+﻿﻿
+@model IEnumerable<QLCV_MVC.Models.qlcv_cvthuongquy>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>CÔNG VIỆC THƯỜNG QUY</h2>
+<hr />
+<table class="table table-striped table-bordered" cellspacing="0" style="width:100%">
+    <thead class="thead-row">
+        <tr role="row">
+            <th style="text-align:center" class="hidden">Id</th>
+            <th style="text-align:center;">Loại</th>
+            <th style="text-align:center;">Nội Dung</th>
+            <th style="text-align:center;width:13%">Mô Tả</th>
+            <th style="text-align:center;">Điểm</th>
+            <th style="text-align:center;">Bộ Phận</th>
+
+        </tr>
+    </thead>
+    <tbody>
+            @foreach(var item in Model)
+            {
+                        <tr role="row" class="odd">
+                            <td class="hidden" id="@item.Id></td>
+                            <td style="text-align:center;">@item.Loai</td>
+                            <td style="text-align:left;">@item.NoiDung</td>
+                            <td style="text-align:left;">@item.MoTa</td>
+                            <td style="text-align:center">@item.Diem</td>
+                            <td style="text-align:center">@item.MaDV</td>
+                        </tr>
+            }
+        
+    </tbody>
+</table>
