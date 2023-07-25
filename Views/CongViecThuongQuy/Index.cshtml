@@ -1,16 +1,21 @@
-﻿﻿
-@model IEnumerable<QLCV_MVC.Models.qlcv_cvthuongquy>
+﻿@using QLCV_MVC.ViewModels﻿
+@*@model IEnumerable<QLCV_MVC.Models.qlcv_cvthuongquy>*@
+@model QLCV_MVC.ViewModels.viewmodel
+
 
 @{
     ViewData["Title"] = "Index";
+    var abc = ViewData["viewModel"];
+
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <h2>CÔNG VIỆC THƯỜNG QUY</h2>
 <hr />
-<table class="table table-striped table-bordered" cellspacing="0" style="width:100%">
+<table class="table table-striped table-bordered sortable" cellspacing="0" style="width:100%">
     <thead class="thead-row">
         <tr role="row">
-            <th style="text-align:center" class="hidden">Id</th>
+            <th style="text-align:center" >Id</th>
             <th style="text-align:center;">Loại</th>
             <th style="text-align:center;">Nội Dung</th>
             <th style="text-align:center;width:13%">Mô Tả</th>
@@ -20,17 +25,157 @@
         </tr>
     </thead>
     <tbody>
-            @foreach(var item in Model)
-            {
-                        <tr role="row" class="odd">
-                            <td class="hidden" id="@item.Id></td>
-                            <td style="text-align:center;">@item.Loai</td>
-                            <td style="text-align:left;">@item.NoiDung</td>
-                            <td style="text-align:left;">@item.MoTa</td>
-                            <td style="text-align:center">@item.Diem</td>
-                            <td style="text-align:center">@item.MaDV</td>
-                        </tr>
-            }
+        @foreach(var item in Model.qlcv_cvthuongquylist)
+        {
+            <tr role="row" class="odd" id="@item.Id" onclick="showdata{@item.Id}">
+                <td>
+                    @*@Html.ActionLink(item.Id.ToString(), $"GetById/{@item.Id}", "Qlcv_cvthuongquy")*@
+                    @*@Html.ActionLink(@item.Id.ToString(), "Edit", new { id=@item.Id})*@
+                    @item.Id
+                </td>
+                <td style="text-align:center">@item.Loai</td>
+                <td style="text-align:left">@item.NoiDung</td>
+                <td style="text-align:left">@item.MoTa</td>
+                <td style="text-align:center">@item.Diem</td>
+                <td style="text-align:center">@item.MaDV</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { @item.Id})</td>
+                <td>@Html.ActionLink("Delete","Delete",new {@item.Id})</td>
+            </tr>
+        }
+       
         
     </tbody>
 </table>
+<hr/>
+
+<!---------------Edit------------------>
+@using (Html.BeginForm("Index", "Qlcv_cvthuongquy"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr/>
+        @Html.ValidationSummary(true,"",new {@class="text-danger"})
+
+        
+        @*----------Nội dung--------------*@
+        <div class="form-group">
+            
+                @Html.LabelFor(model => model.qlcv_cvthuongquy.NoiDung, htmlAttributes:new {@class = "control-label col-md-2"})
+                @Html.EditorFor(model => model.qlcv_cvthuongquy.NoiDung,new  {htmlAtributes = new {@class="form-control col-md-10"}})
+                @Html.ValidationMessageFor(model => model.qlcv_cvthuongquy.NoiDung, "", new { @class = "text-danger" })
+           
+        </div>
+        @*----------Mô tả--------------*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.qlcv_cvthuongquy.MoTa, htmlAttributes:new {@class = "control-label col-md-2"})
+
+            @Html.EditorFor(model => model.qlcv_cvthuongquy.MoTa,new  {htmlAtributes = new {@class="form-control col-md-10"}})
+                @Html.ValidationMessageFor(model => model.qlcv_cvthuongquy.MoTa, "", new { @class = "text-danger" })
+            
+        </div>
+       
+        @*----------Điểm--------*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.qlcv_cvthuongquy.Diem, htmlAttributes:new {@class = "control-label col-md-2"})
+           
+                @Html.EditorFor(model => model.qlcv_cvthuongquy.Diem,new  {htmlAtributes = new {@class="form-control col-md-10"}})
+                @Html.ValidationMessageFor(model => model.qlcv_cvthuongquy.Diem, "", new { @class = "text-danger" })
+           
+        </div>
+        @*-------------Đơn vị-------------*@
+            <div class="form-group">
+                <label asp-for="qlcv_cvthuongquy.MaDV" class="control-label col-md-2">Chọn đơn vị</label>
+               @* <select asp-for="qlcv_cvthuongquy.MaDV" class="form-control col-md-10" asp-items="@(new SelectList(Model.ns_dmbophans,"Ma","Ten"))"></select>*@
+            <select asp-for="qlcv_cvthuongquy.MaDV" class="form-control col-md-10" asp-items="@ViewBag.MaDV"></select>
+            </div>
+        @*-----------Loại----------------*@
+        <div class="form-group" >
+            <label class="control-label col-md-2">Chọn loại công việc</label>
+            <select asp-for="qlcv_cvthuongquy.Loai" class="form-control col-md-10" asp-items="Html.GetEnumSelectList<Loai>()"></select>
+        </div>
+        @*------------ID------------------*@
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.qlcv_cvthuongquy.Id, htmlAttributes:new {@class = "control-label col-md-2"})
+
+            @Html.EditorFor(model => model.qlcv_cvthuongquy.Id,new  {htmlAtributes = new {@class="form-control col-md-10"}})
+            @Html.ValidationMessageFor(model => model.qlcv_cvthuongquy.Id, "", new { @class = "text-danger" })
+
+        </div>*@
+        @Html.HiddenFor(model=> model.qlcv_cvthuongquy.Id)
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="row">
+
+            @* <button class="btn btn-primary" onclick="clear">Thêm</button>
+        <button class="btn btn-primary">Sửa</button>
+        <button class="btn btn-primary">Xóa</button>
+        <button class="btn btn-primary">Hủy</button>
+        <button class="btn btn-primary" asp-controller="Qlcv_cvthuongquy" asp-action="CreateUpd/{id}">Lưu</button>
+        <button class="btn btn-primary">Thoát</button>*@
+        </div>
+    </div>
+    
+
+
+}
+
+
+<!---------Get Id --------------->
+<script type="text/javascript">
+    $('.odd').click(function () {
+        //alert("test called");
+        var serviceID = $(this).attr('id');
+
+        //alert("serviceID :: " + serviceID);
+    })
+
+        function addRowHandlers() {
+        var table = document.getElementById("table");
+        var rows = table.getElementsByTagName("tr");
+        for (i = 0; i < rows.length; i++) {
+            var currentRow = table.rows[i];
+            var createClickHandler = function (row) {
+                return function () {
+                    var cell = row.getElementsByTagName("td")[0];
+                    // check if not null
+                    if (!cell) return; // no errors!
+                    var id = cell.innerHTML;
+                    alert("id:" + id);
+                };
+            };
+            currentRow.onclick = createClickHandler(currentRow);
+        }
+    }
+    function showdata(id){
+        $.ajax({
+            type:"Post",
+            url:"/Qlcv_cvthuongquy/Edit{id}",
+            async:true,
+            success:function(msg){
+                ServiceSuccessded(msg);
+
+            },
+            error: function(){
+                return "error";
+            }
+        });
+    }
+
+    function delete(id) {
+        $.ajax({
+            type: "POST",
+            url: "/Qlcv_cvthuongquy/GetById{id}",
+            async: true,
+            success: function (msg) {
+                ServiceSucceeded(msg);
+            },
+            error: function () {
+                return "error";
+            }
+        });
+    }
+</script>

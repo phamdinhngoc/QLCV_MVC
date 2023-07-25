@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -21,6 +21,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibWebNetConn\LibWebNetConn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DevExpress.Tutorials.v18.1">
+      <HintPath>..\..\DevExpress.Tutorials.v18.1.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,73 @@
+﻿@using QLCV_MVC.ViewModels
+@model QLCV_MVC.ViewModels.qlcv_kehoachviewmodel
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-content" id="table_">
+    @Html.Partial("/Views/KeHoach/List.cshtml")
+</div>
+<div class="container">
+    <h4>Chi tiết</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="Create" asp-controller="qlcv_kehoach" method="post">
+                <div class="form-group">
+                    <label asp-for="qlcv_kehoach.Id" class="control-label"></label>
+                    <input asp-for="qlcv_kehoach.Id" class="form-control" readonly="readonly" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_kehoach.noidung" class="control-label"></label>
+                    <textarea asp-for="qlcv_kehoach.noidung" class="form-control"></textarea>
+                    <span asp-validation-for="qlcv_kehoach.noidung" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @*<label asp-for="qlcv_kehoach.mota" class="control-label"></label>*@
+                    <textarea id="mota" asp-for="qlcv_kehoach.mota" class="form-control"></textarea>
+                    @*<span asp-validation-for="qlcv_kehoach.mota" class="text-danger"></span>*@
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="qlcv_kehoach.ngaybd" class="control-label"></label>
+                    <input type="datetime-local" asp-for="qlcv_kehoach.ngaybd" class="control-label">
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_kehoach.ngaykt" class="control-label"></label>
+                    <input type="datetime-local" asp-for="qlcv_kehoach.ngaykt" class="control-label">
+                </div>
+              
+                <div class="form-group">
+                    <label asp-for="qlcv_kehoach.madv" class="control-label"></label>
+                    <select id="madv" asp-for="qlcv_kehoach.madv" class="form-control col-md-10" asp-items="@ViewBag.MaDV"></select>
+                    <span asp-validation-for="qlcv_kehoach.madv" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group">
+                    @if (ViewBag.Name == "Add")
+                    {
+                        <input type="submit" asp-controller="qlcv_kehoach" asp-action="Create" class="btn btn-success btn-sm" />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Update" asp-action="Update" asp-route-id="id" class="btn btn-success btn-sm" />
+                        <input type="submit" value="Cancel" asp-action="Index" class="btn btn-defaul btn-sm" />
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        //CKEDITOR.replace("qlcv_kehoach.mota");
+
+
+        $(function () {
+            $("#madv").chosen();
+           
+        });
+    </script>
+}

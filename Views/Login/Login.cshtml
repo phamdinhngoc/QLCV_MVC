@@ -1,9 +1,7 @@
 ﻿
 @model QLCV_MVC.ViewModels.LoginViewModel
 @{
-    var title = "Login";
-    ViewData["Title"] = title;
-    Layout = null;
+       Layout = null;
 }
 
 
@@ -11,8 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@title</title>
-   
+       
     <link href="/lib/bootstrap-4.3.1/dist/css/bootstrap.css" rel="stylesheet" />
     <script src="/lib/jquery/dist/jquery.min.js"></script>
 
@@ -33,7 +30,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <h3>LOGIN MVC ASP.Net Core 3.1</h3>
+            <h3 style="text-align:center">LOGIN</h3>
         </div>
     </div>
     <div class="container body-content">
@@ -41,17 +38,29 @@
         @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "form-signin", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>@title</h4>
+            <div class="form-group border">
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div>
+                    <label class="control-label">Chọn loại tài khoản</label>
+                </div>
+               @* <div class="col-8 border">
+                    <select asp-for="account" class="form-control" asp-items="Html.GetEnumSelectList<AccountType>()">
+                        @*<option value="0">Chọn loại tài khoản</option>*@
+                   @* </select>*@
+                    <span asp-validation-for="account" class="text-danger"></span>
+                @*</div>*@
+            </div>
 
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+               @* 
                 @Html.TextBoxFor(m => m.userid, new { @class = "form-control", placeholder = "UserId" })
                 @Html.ValidationMessageFor(m => m.userid, "", new { @class = "text-danger" })
                 <br />
                 @Html.PasswordFor(m => m.password_, new { @class = "form-control", placeholder = "Password" })
                 @Html.ValidationMessageFor(m => m.password_, "", new { @class = "text-danger" })
                 <br />
-                <input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block" />
+                <input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block" />*@
             }
        
         </div>

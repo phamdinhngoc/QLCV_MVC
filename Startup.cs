@@ -39,6 +39,10 @@ namespace QLCV_MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddScoped<LoginRepository>();
             services.AddScoped<qlcv_cvthuongquyRepository>();
+            services.AddScoped<ns_dmbophanRepository>();
+            services.AddScoped<qlcv_kehoachRepository>();
+            services.AddScoped<qlcv_cvkehoachRepository>();
+            services.AddScoped<ns_lilichnvRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +66,7 @@ namespace QLCV_MVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

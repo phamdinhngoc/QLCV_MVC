@@ -1,0 +1,89 @@
+﻿@using QLCV_MVC.ViewModels
+@model QLCV_MVC.ViewModels.qlcv_cvkehoachVM
+@{
+   
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+  
+
+
+<div class="box-content" id="table_">
+    @Html.Partial("/Views/KeHoachCongViec/List.cshtml")
+
+</div>
+
+<div class="container">
+    <h4>Chi tiết</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="Create" asp-controller="qlcv_cvkehoach" method="post">
+                <div class="form-group hidden">
+                    <label asp-for="qlcv_cvkehoach.id" class="control-label"></label>
+                    <input asp-for="qlcv_cvkehoach.id" class="form-control" readonly="readonly" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.noidung" class="control-label"></label>
+                    <textarea asp-for="qlcv_cvkehoach.noidung" class="form-control"></textarea>
+                    <span asp-validation-for="qlcv_cvkehoach.noidung" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.mota" class="control-label"></label>
+                    <textarea asp-for="qlcv_cvkehoach.mota" class="form-control"></textarea>
+                    <span asp-validation-for="qlcv_cvkehoach.mota" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.ngaybd" class="control-label"></label>
+                    <input type="datetime-local" asp-for="qlcv_cvkehoach.ngaybd" class="control-label">
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.ngaykt" class="control-label"></label>
+                    <input type="datetime-local" asp-for="qlcv_cvkehoach.ngaykt" class="control-label">
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.diem" class="control-label"></label>
+                    <input type="text" asp-for="qlcv_cvkehoach.diem" class="form-control"></input>
+                    <span asp-validation-for="qlcv_cvkehoach.diem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.idkehoach" class="control-label"></label>
+                    <select id="kehoach" asp-for="qlcv_cvkehoach.idkehoach" class="form-control col-md-10" asp-items="@ViewBag.KeHoach"></select>
+                    <span asp-validation-for="qlcv_cvkehoach.idkehoach" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.madv" class="control-label"></label>
+                    <select id="madv" asp-for="qlcv_cvkehoach.madv" class="form-control col-md-10" asp-items="@ViewBag.MaDV"></select>
+                    <span asp-validation-for="qlcv_cvkehoach.madv" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="qlcv_cvkehoach.manv" class="control-label"></label>
+                    <select id="manv" asp-for="qlcv_cvkehoach.manv" class="form-control col-md-10" asp-items="@ViewBag.MaNV"></select>
+                    <span asp-validation-for="qlcv_cvkehoach.manv" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @if (ViewBag.Name == "Add")
+                    {
+                        <input type="submit" asp-controller="qlcv_cvkehoach" asp-action="Create" class="btn btn-success btn-sm" />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Update" asp-action="Update" class="btn btn-success btn-sm" />
+                        <input type="submit" value="Cancel" asp-action="Index" class="btn btn-defaul btn-sm" />
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function(){
+            $("#madv").chosen();
+            $("#manv").chosen();
+            $("#kehoach").chosen();
+        });
+    </script>
+}
